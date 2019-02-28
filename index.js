@@ -3,6 +3,8 @@ const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const cors = require("cors");
+
+// routes
 const usersRoute = require("./users/usersRoute");
 const cohortsRoute = require("./cohorts/cohortsRoute");
 const projectsRoute = require("./projects/projectsRoute");
@@ -13,10 +15,10 @@ const server = express();
 // Middleware
 server.use(express.json());
 server.use(helmet());
-server.use(morgan("dev"));
 server.use(cors());
+server.use(morgan("dev"));
 
-// Routers
+// Use Routers
 server.use("/api/users", usersRoute);
 server.use("/api/cohorts", cohortsRoute);
 server.use("/api/projects", projectsRoute);
