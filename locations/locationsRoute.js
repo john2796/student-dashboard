@@ -1,8 +1,9 @@
 const route = require("express").Router();
 const Locations = require("./locationsModel");
 const Users = require("../users/usersModel");
+const auth = require("../common/authentication").authenticate;
 
-route.get("/", (req, res) => {
+route.get("/", auth, (req, res) => {
   Locations.get()
     .then(locations => {
       res.json(locations);
@@ -12,7 +13,7 @@ route.get("/", (req, res) => {
     });
 });
 
-route.post("/", (req, res) => {
+route.post("/", auth, (req, res) => {
   const { user_id, lat, lng } = req.body;
 
   if (!user_id || !lat || !lng) {
@@ -40,7 +41,7 @@ route.post("/", (req, res) => {
   }
 });
 
-route.get("/:id", (req, res) => {
+route.get("/:id", auth, (req, res) => {
   const { id } = req.params;
 
   Users.getById(id)
@@ -58,7 +59,7 @@ route.get("/:id", (req, res) => {
     });
 });
 
-route.delete("/:id", (req, res) => {
+route.delete("/:id", auth, (req, res) => {
   const { id } = req.params;
 
   Locations.remove(id)
@@ -76,7 +77,7 @@ route.delete("/:id", (req, res) => {
     });
 });
 
-route.put("/:id", (req, res) => {
+route.put("/:id", auth, (req, res) => {
   const { id } = req.params;
   const { lng, lat } = req.body;
 
