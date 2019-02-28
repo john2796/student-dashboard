@@ -4,7 +4,8 @@ module.exports = {
   findBy,
   insert,
   remove,
-  update
+  update,
+  findById
 };
 
 function find(query) {
@@ -33,6 +34,13 @@ function findBy(query) {
     .select()
     .from("projects")
     .where(query)
+    .first();
+}
+function findById(id) {
+  return db
+    .select()
+    .from("projects")
+    .where({ id })
     .first();
 }
 
