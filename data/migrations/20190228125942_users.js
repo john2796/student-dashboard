@@ -9,6 +9,7 @@ exports.up = function(knex, Promise) {
       .unique();
     tbl.string("password").notNullable();
     tbl.string("avatar");
+
     tbl
       .integer("cohort_id")
       .references("id")

@@ -24,6 +24,17 @@ server.use("/api/cohorts", cohortsRoute);
 server.use("/api/projects", projectsRoute);
 server.use("/api/locations", locationsRoute);
 
+// 404
+server.use(function(req, res, next) {
+  return res
+    .status(404)
+    .send({ message: "[Route] --> " + req.url + " <-- Not found." });
+});
+// 500 - Any server error
+server.use(function(err, req, res, next) {
+  return res.status(500).send({ error: err });
+});
+
 // Server start
 const port = process.env.PORT || 5000;
 
