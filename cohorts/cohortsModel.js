@@ -4,60 +4,52 @@ module.exports = {
   findBy,
   insert,
   remove,
-  update,
-  findById
+  update
 };
 
 function find(query) {
   const { limit = 10, page = 1, name } = query;
-  let projects;
 
+  let cohorts;
   if (!name) {
-    projects = db
+    cohorts = db
       .select()
-      .from("projects")
+      .from("cohorts")
       .orderBy("id", "desc")
       .paginate(limit, page, true);
   } else {
-    projects = db
+    cohorts = db
       .select()
-      .from("projects")
+      .from("cohorts")
       .orderBy("id", "desc")
       .where("name", "like", `%${name}%`);
   }
 
-  return projects;
+  return cohorts;
 }
 
 function findBy(query) {
   return db
     .select()
-    .from("projects")
+    .from("cohorts")
     .where(query)
-    .first();
-}
-function findById(id) {
-  return db
-    .select()
-    .from("projects")
-    .where({ id })
     .first();
 }
 
 function insert(project) {
-  return db.insert(project).into("projects");
+  return db.insert(project).into("cohorts");
 }
 
 function remove(id) {
   return db
     .del()
-    .from("projects")
+    .from("cohorts")
     .where(id);
 }
 function update(id, changes) {
   return db
     .update(changes)
-    .from("projects")
+    .from("cohorts")
     .where({ id });
 }
 /*
