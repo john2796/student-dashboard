@@ -1,7 +1,7 @@
 const route = require("express").Router();
-const auth = require("../common/authentication");
 const Users = require("./usersModel");
 const bcrypt = require("bcryptjs");
+const auth = require("../common/authentication").authenticate;
 const db = require("../data/dbConfig");
 
 // @route    GET api/users/test
@@ -15,6 +15,8 @@ route.get("/", async (req, res) => {
     res.status(500).json({ message: err });
   }
 });
+
+
 
 route.post("/register", (req, res) => {
   const { firstname, lastname, email, password } = req.body;
@@ -69,4 +71,28 @@ route.post("/login", (req, res) => {
   }
 });
 
+route.put("/:id", auth, (req, res) => {
+  const { id } = req.params;
+  const loggedInUser = req.decoded;
+
+  if (loggedInUser.id === Number(id)) {
+    Users.update(id, req.body)
+      .then(result => {
+        if (result) {
+          Users.getById(loggedInUser.id).then(user => {
+            res.json(user);
+          });
+        } else {
+          res.status(400).json({ message: "Failed to update profile" });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ message: error.detail });
+      });
+  } else {
+    res
+      .status(401)
+      .json({ message: "You can not edit someone else's profile" });
+  }
+});
 module.exports = route;
