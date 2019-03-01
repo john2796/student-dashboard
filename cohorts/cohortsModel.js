@@ -38,7 +38,10 @@ function findBy(query) {
 }
 
 function insert(project) {
-  return db.insert(project).into("cohorts");
+  return db
+    .insert(project)
+    .into("cohorts")
+    .returning("id");
 }
 
 function remove(id) {

@@ -5,7 +5,7 @@ const genToken = user => {
     jwt.sign(
       user,
       process.env.SECRET_KEY,
-      { expiresIn: "1h" },
+      { expiresIn: 1000 * 60 * 60 * 5 }, //5 hours
       (err, token) => {
         if (err) {
           rej(err);
