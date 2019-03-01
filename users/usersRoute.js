@@ -2,6 +2,19 @@ const route = require("express").Router();
 const auth = require("../common/authentication");
 const Users = require("./usersModel");
 const bcrypt = require("bcryptjs");
+const db = require("../data/dbConfig");
+
+// @route    GET api/users/test
+// @desc     test
+// @Access   Public
+route.get("/", async (req, res) => {
+  try {
+    const users = await db.select().from("users");
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
 
 route.post("/register", (req, res) => {
   const { firstname, lastname, email, password } = req.body;

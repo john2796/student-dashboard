@@ -11,52 +11,52 @@ module.exports = {
 function find(query) {
   const { limit = 10, page = 1, name } = query;
 
-  let cohorts;
+  let user_projects;
   if (!name) {
-    cohorts = db
+    user_projects = db
       .select()
-      .from("cohorts")
-      .orderBy("id", "desc")
+      .from("user_projects")
+      .orderBy("project_id", "desc")
       .paginate(limit, page, true);
   } else {
-    cohorts = db
+    user_projects = db
       .select()
-      .from("cohorts")
-      .orderBy("id", "desc")
-      .where("name", "like", `%${name}%`);
+      .from("user_projects")
+      .orderBy("project_id", "desc")
+      .where("project_id", "like", `%${name}%`);
   }
 
-  return cohorts;
+  return user_projects;
 }
 
 function findBy(query) {
   return db
     .select()
-    .from("cohorts")
+    .from("user_projects")
     .where(query)
     .first();
 }
 
 function insert(project) {
-  return db.insert(project).into("cohorts");
+  return db.insert(project).into("user_projects");
 }
 
 function remove(id) {
   return db
     .del()
-    .from("cohorts")
+    .from("user_projects")
     .where(id);
 }
 function update(id, changes) {
   return db
     .update(changes)
-    .from("cohorts")
+    .from("user_projects")
     .where({ id });
 }
 function findById(id) {
   return db
     .select()
-    .from("cohorts")
+    .from("user_projects")
     .where(id)
     .first();
 }

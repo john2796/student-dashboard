@@ -40,12 +40,15 @@ function findById(id) {
   return db
     .select()
     .from("projects")
-    .where({ id })
+    .where(id)
     .first();
 }
 
 function insert(project) {
-  return db.insert(project).into("projects");
+  return db
+    .insert(project)
+    .into("projects")
+    .returning("id");
 }
 
 function remove(id) {
